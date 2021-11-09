@@ -13,13 +13,15 @@ function resultGetTasks(data) {
             displayName: 'не присвоен',
             name: ''
         });
-        (USERNAME === i.fields.assignee.name) && (USEREALNAME = i.fields.assignee.displayName);
+        (USERNAME.toLocaleUpperCase() === i.fields.assignee.name.toLocaleUpperCase()) && (USEREALNAME = i.fields.assignee.displayName);
+
         delete i.expand;
         delete i.self;
         delete i.id;
+        // console.log('i',i)
         i.name = `${(idx + 1)})${i.key}/${i.fields.summary} `;
         i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
-        i.name += `${(USERNAME === i.fields.assignee.name) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
+        i.name += `${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
         i.description = i.fields.description;
         delete i.key;
