@@ -20,7 +20,26 @@ function resultGetTasks(data) {
         i.name = `${(idx + 1)})${i.key}/${i.fields.summary} `;
         i.name = (i.name + ' '.repeat(1000)).slice(0, 110);
         /* парсинг спринта */
-        i.name += ((i.fields.customfield_10100[0] || "").match(/(?<=name=)([^,]*)(?=,)/gm) || [])[0];
+
+        /* название спринта */
+        // i.name += ((i.fields.customfield_10100[0] || "").match(/(?<=name=)([^,]*)(?=,)/gm) || [])[0];
+        /* строка дата начала спринта */
+        const sprintStartDate = ((i.fields.customfield_10100[0] || "").match(/(?<=startDate=)([^,]*)(?=,)/gm) || [])[0];
+        /* строка дата окончания спринта */
+        const sprintEndDate = ((i.fields.customfield_10100[0] || "").match(/(?<=endDate=)([^,]*)(?=,)/gm) || [])[0];
+        const today = new Date();
+        if(sprintStartDate && sprintEndDate){
+            if(today > new Date(sprintEndDate)){
+                i.name += "Закрытый спринт";
+            } else
+            if(today < new Date(sprintStartDate)){
+                i.name += "Будущий спринт";
+            } else {
+                i.name += "Текущий спринт";
+            }
+        } else {
+            i.name += "Спринт не опред.";
+        }
         i.name = (i.name + ' '.repeat(20)).slice(0, 140);
         i.name += `${(USERNAME === i.fields.assignee.name) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;

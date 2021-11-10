@@ -16,7 +16,7 @@ function selectTask() {
     }]).then(answers => {
         switch (answers.id) {
             case menuData[0]: /* 'Мои задачи' */
-                global.REQ = `assignee=currentuser() AND project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved) AND (Sprint in (futureSprints(), openSprints()))`;
+                global.REQ = `assignee=currentuser() AND project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved)`;
                 lib.methods.getTasks();
                 break;
             case menuData[1]: /* 'Мои задачи в текущем спринте' */
