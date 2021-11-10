@@ -24,16 +24,22 @@ function getStory(filter = 'All', callback = () => {
                 "description",
                 "summary",
                 "created",
-                "assignee"
+                "assignee",
+                "status",
+                "customfield_10100"
               ],
               "startAt": 0
             }`
     };
     request(data, function (error, request, body) {
             if (error) throw new Error(error);
+
             callback(JSON.parse(body).issues.filter(i => {
+
                 let result = !!(i.fields.issuetype.subtask);
                 result && filter !== 'All' && (result = ~i.fields.summary.indexOf(filter));
+
+
                 return result;
             }));
         }
