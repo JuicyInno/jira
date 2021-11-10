@@ -59,6 +59,7 @@ global.jira.subtask.transitions.decline = {
 /* настройки для Bitbucket */
 global.bitbucket = {};
 global.bitbucket.host = "https://bitbucket.region.vtb.ru"; /* хост апи */
+global.bitbucket.mainBranchName = "master"; /* имя ветки в которую делаются пулл реквесты (pull requests) */
 
 
 //  1) логинимся
