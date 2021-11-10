@@ -25,21 +25,17 @@ function getStory(filter = 'All', callback = () => {
                 "summary",
                 "created",
                 "assignee",
-                "status",
-                "customfield_10100"
+                "customfield_10100",
+                "status"
               ],
               "startAt": 0
             }`
     };
     request(data, function (error, request, body) {
-            if (error) throw new Error(error);
-
+            if (error) throw new Error(error); /* todo: check body {errorMsg: "blablabla"}*/
             callback(JSON.parse(body).issues.filter(i => {
-
                 let result = !!(i.fields.issuetype.subtask);
                 result && filter !== 'All' && (result = ~i.fields.summary.indexOf(filter));
-
-
                 return result;
             }));
         }

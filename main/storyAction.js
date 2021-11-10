@@ -15,15 +15,14 @@ function storyAction(answers) {
         }
         ])
         .then(a => {
-
             switch (a.id) {
-                case menuData1[0]:
+                case menuData1[0]: /* 'Создать ветку' */
                     child_process.exec(`git checkout -b feature/${answers.value} develop `);
                     child_process.exec(`git push --set-upstream origin HEAD`);
                     child_process.exec(`git pull origin develop`);
                     console.log(`Ветка feature/${answers.value} успешно создана`);
                     break;
-                case menuData1[1]:
+                case menuData1[1]: /* 'Показать описание задачи' */
                     console.log(`*************************************************************
 *************************************************************
           ${answers.description}
@@ -31,15 +30,18 @@ function storyAction(answers) {
 *************************************************************`);
                     storyAction(answers);
                     break;
-                case menuData1[2]:
+                case menuData1[2]: /* 'Назначить на меня' */
                     lib.requests.assigneeTaskTo(answers.value, () => storyAction(answers));
 
 
                     break;
-                case menuData1[3]:
+                case menuData1[3]: /* 'Закрыть задачу в jira' */
+                    if(!answers.taskStatusOnWork){
+                        throw new Error("задача не в работе!; переведите задачу в статус \"В Работе\" и перезапустите приложение");
+                    }
                     lib.methods.requestClosetask(answers.value);
                     break;
-                case menuData1[4]:
+                case menuData1[4]: /* '<----- Назад' */
                     console.clear();
                     lib.methods.getTasks();
                     break;

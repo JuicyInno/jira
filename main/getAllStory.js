@@ -8,7 +8,6 @@ const menu = ["[FRONT]", "[BACK]", "[QA]", "[DESIGN]", "All"];
 function resultGetTasks(data) {
     let USEREALNAME = ' на вас нет задач';
     const USERNAME = global.auth.USERNAME;
-    let b=true
     const r = data.map((i, idx) => {
         (!i.fields.assignee) && (i.fields.assignee = {
             displayName: 'не присвоен',
@@ -19,21 +18,43 @@ function resultGetTasks(data) {
         delete i.expand;
         delete i.self;
         delete i.id;
-        // if(b){
-        //      console.log('i',i)
-        //   //  console.log(i.fields.customfield_10100[0].split('name=')[1].split(',startDate')[0])
-        //     b=false
-        // }
+        i.name = `${(idx + 1)})${i.key}/${i.fields.summary} `;
+        i.name = (i.name + ' '.repeat(1000)).slice(0, 110);
+        /* парсинг спринта */
 
-        i.name = `${(idx + 1)})${i.key} [${(i.fields.status?.name+'     ').slice(0,8)}]/${i.fields.summary} `;
-        i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
-        i.name +=i.fields.customfield_10100[0].split('name=')[1].split(',startDate')[0]+' / '
-
+        /* название спринта */
+        // i.name += ((i.fields.customfield_10100[0] || "").match(/(?<=name=)([^,]*)(?=,)/gm) || [])[0];
+        /* строка дата начала спринта */
+        const sprintStartDate = ((i.fields.customfield_10100[0] || "").match(/(?<=startDate=)([^,]*)(?=,)/gm) || [])[0];
+        /* строка дата окончания спринта */
+        const sprintEndDate = ((i.fields.customfield_10100[0] || "").match(/(?<=endDate=)([^,]*)(?=,)/gm) || [])[0];
+        const today = new Date();
+        if(sprintStartDate && sprintEndDate){
+            if(today > new Date(sprintEndDate)){
+                i.name += "Закрытый спринт";
+            } else
+            if(today < new Date(sprintStartDate)){
+                i.name += "Будущий спринт";
+            } else {
+                i.name += "Текущий спринт";
+            }
+        } else {
+            i.name += "Спринт не опред.";
+        }
+        i.name = (i.name + ' '.repeat(20)).slice(0, 140);
         i.name += `${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
-        i.description = i.fields.description;
         delete i.key;
+        i.description = i.fields.description;
         i.created = new Date(i.fields.created);
+        /*
+            "status": {
+                "name": "В работе",
+                "id": "11003",
+                ...
+            }
+        */
+        i.taskStatusOnWork = i.fields.status.id === "11003";
         delete i.fields;
         return i;
     }).sort((a, b) => (a.value > b.value ? -1 : 1));
