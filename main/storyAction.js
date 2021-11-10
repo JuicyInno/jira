@@ -22,8 +22,10 @@ const lib = require('./../create');
                      lib.requests.toWork(answers.value, '',()=>{
                          try {
                              child_process.exec(`git checkout -b feature/${answers.value} master `);
+                             child_process.exec(`git checkout feature/${answers.value}`);
                              child_process.exec(`git push --set-upstream origin HEAD`);
                              child_process.exec(`git pull origin master`);
+
                              console.log(`Ветка feature/${answers.value} успешно создана`);
                          }catch(e){
                              console.log(`Ошибка:`,e);

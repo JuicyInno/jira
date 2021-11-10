@@ -38,7 +38,7 @@ function createPr(callback = () => {
     child_process.execSync(`git pull origin ${global.bitbucket.mainBranchName}`);
     /* todo: проверять наличие ветки в репозитории */
     /* todo: разобраться с магией ниже */
-    const tmp = child_process.execSync('git status -s').toString().trim().split('\n').filter(i => !~i.indexOf('??')).filter(i => !i.indexOf('.'));
+    const tmp = child_process.execSync('git status -s').toString().trim().split('\n')//.filter(i => !~i.indexOf('??')).filter(i => !~i.indexOf('.'));
 
     if (tmp.length) {
         log('error', `Не закомиченные файлы`)
@@ -48,8 +48,8 @@ function createPr(callback = () => {
     } else {
         request(data, function (error, response) {
             if (error) throw new Error(error);
-            child_process.execSync(`git checkout ${global.bitbucket.mainBranchName}`);
-            child_process.execSync(`git fetch`);
+            // child_process.execSync(`git checkout ${global.bitbucket.mainBranchName}`);
+            // child_process.execSync(`git fetch`);
             log("info", " Pull request  успешно создан");
 
             callback();
