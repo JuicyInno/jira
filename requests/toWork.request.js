@@ -1,10 +1,10 @@
 const request = require('request');
 
-/*создание пр*/
-function closeTask(taskId, comment = '', callback=()=>{}) {
+
+function toWork(taskId, comment = '', callback=()=>{}) {
     const data = {
         method: 'POST',
-        url: `${global.jira.host}/rest/api/2/issue/${taskId}/transitions`,
+        url: `${global.jira.host}/rest/api/2/issue/${taskId}/transitions `,
         strictSSL: false,
         auth: {
             username: global.auth.USERNAME,
@@ -14,22 +14,13 @@ function closeTask(taskId, comment = '', callback=()=>{}) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: `{"transition": {"id": "${global.jira.subtask.transitions.done.id}"}, "update": {
-
-        "comment": [
-            {
-                "add": {
-                    "body": "${comment}"
-                }
-            }
-        ]
-    }}`
+        body: ` {"transition": {"id": "${jira.subtask.transitions.to_work.id}"}}`
     };
-    console.log(data)
     request(data, function (error) {
+
         if (error) throw new Error(error);
         callback()
     });
 }
 //--------------------------
-exports.closeTask = closeTask;
+exports.toWork = toWork;

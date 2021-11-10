@@ -7,6 +7,7 @@ const {requestClosetask} = require('./main/closeTask');
 const {getStory} = require('./requests/getStory.request');
 const {closeTask} = require('./requests/closeTask.request');
 const {assigneeTaskTo} = require('./requests/assigneeTask.request');
+const {toWork} = require('./requests/toWork.request');
 const {createPr} = require('./requests/pr.request');
 const {currentBrunch, currentRepoLink} = require('./utils/helpers');
 
@@ -26,7 +27,8 @@ exports.requests = {
     closeTask,
     createPr,
     assigneeTaskTo,
-    spendTime
+    spendTime,
+    toWork
 };
 
 exports.utils = {
@@ -42,7 +44,7 @@ global.jira.project = "SERV"; /* наименование проекта для 
 global.jira.subtask = {}; /* для хранения констант связанных с подзадачами (!) */
 global.jira.subtask.transitions = {}; /* возможные статусы подзадач */
 global.jira.subtask.transitions.to_work = {
-    "id": "11",
+    "id": "101",
     "name": "В работу"
 };
 global.jira.subtask.transitions.done = {
