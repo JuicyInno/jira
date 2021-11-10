@@ -18,9 +18,13 @@ function resultGetTasks(data) {
         delete i.expand;
         delete i.self;
         delete i.id;
-        i.name = `${(idx + 1)})${i.key}/${i.fields.summary} `;
-        i.name = (i.name + ' '.repeat(1000)).slice(0, 110);
+        i.name = `${(idx + 1)})${i.key} [${(i.fields.status?.name+'     ').slice(0,8)}]/${i.fields.summary}`;
+        i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
         /* парсинг спринта */
+        //
+        // i.name = `${(idx + 1)})${i.key} [${(i.fields.status?.name+'     ').slice(0,8)}]/${i.fields.summary} `;
+        // i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
+        // i.name +=i.fields.customfield_10100[0].split('name=')[1].split(',startDate')[0]+' / '
 
         /* название спринта */
         // i.name += ((i.fields.customfield_10100[0] || "").match(/(?<=name=)([^,]*)(?=,)/gm) || [])[0];
@@ -41,8 +45,8 @@ function resultGetTasks(data) {
         } else {
             i.name += "Спринт не опред.";
         }
-        i.name = (i.name + ' '.repeat(20)).slice(0, 140);
-        i.name += `${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
+
+        i.name += ` __ ${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
         delete i.key;
         i.description = i.fields.description;
