@@ -4,7 +4,7 @@ const menuData1 = ['Создать ветку', 'Показать описани
 const lib = require('./../create');
 
 
-function storyAction(answers) {
+ function storyAction(answers) {
 
     inquirer
         .prompt([{
@@ -16,11 +16,23 @@ function storyAction(answers) {
         ])
         .then(a => {
             switch (a.id) {
-                case menuData1[0]: /* 'Создать ветку' */
-                    child_process.exec(`git checkout -b feature/${answers.value} develop `);
-                    child_process.exec(`git push --set-upstream origin HEAD`);
-                    child_process.exec(`git pull origin develop`);
-                    console.log(`Ветка feature/${answers.value} успешно создана`);
+
+                case menuData1[0]:
+
+                     lib.requests.toWork(answers.value, '',()=>{
+                         try {
+                             child_process.exec(`git checkout -b feature/${answers.value} master `);
+                             child_process.exec(`git push --set-upstream origin HEAD`);
+                             child_process.exec(`git pull origin master`);
+                             console.log(`Ветка feature/${answers.value} успешно создана`);
+                         }catch(e){
+                             console.log(`Ошибка:`,e);
+                         }
+
+
+                    } );
+
+
                     break;
                 case menuData1[1]: /* 'Показать описание задачи' */
                     console.log(`*************************************************************
