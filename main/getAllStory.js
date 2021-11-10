@@ -18,7 +18,10 @@ function resultGetTasks(data) {
         delete i.self;
         delete i.id;
         i.name = `${(idx + 1)})${i.key}/${i.fields.summary} `;
-        i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
+        i.name = (i.name + ' '.repeat(1000)).slice(0, 110);
+        /* парсинг спринта */
+        i.name += ((i.fields.customfield_10100[0] || "").match(/(?<=name=)([^,]*)(?=,)/gm) || [])[0];
+        i.name = (i.name + ' '.repeat(20)).slice(0, 140);
         i.name += `${(USERNAME === i.fields.assignee.name) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
         i.description = i.fields.description;
