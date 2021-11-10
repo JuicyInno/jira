@@ -20,11 +20,11 @@ function selectTask() {
                 lib.methods.getTasks();
                 break;
             case menuData[1]: /* 'Мои задачи в текущем спринте todo  заменить на openSprints()*/
-                global.REQ = `assignee=currentuser() AND project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved) AND (Sprint  in (futureSprints()) )`;
+                global.REQ = `assignee=currentuser() AND project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved) AND (Sprint  in (openSprints()) )`;
                 lib.methods.getTasks();
                 break;
             case menuData[2]: /* 'Все задачи в текущем спринте' */
-                global.REQ = `project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved) AND (Sprint  in (futureSprints()) )`;
+                global.REQ = `project=${global.jira.project} AND resolution=Unresolved AND status not in (Closed , resolved) AND (Sprint  in (openSprints()) )`;
                 lib.methods.getTasks(true);
                 break;
             case menuData[3]: /* 'Закрыть текущую задачу' */

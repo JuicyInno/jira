@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const child_process = require('child_process');
 const menuData1 = ['Создать ветку', 'Показать описание задачи', 'Назначить на меня', 'Закрыть задачу в jira', '<----- Назад'];
 const lib = require('./../create');
+const {log} = require("./../utils/log");
 
 
  function storyAction(answers) {
@@ -18,21 +19,24 @@ const lib = require('./../create');
             switch (a.id) {
 
                 case menuData1[0]:
+                    lib.requests.assigneeTaskTo(answers.value, () => {
+                        lib.requests.toWork(answers.value, '',()=>{
+                            try {
+                                child_process.exec(`git checkout -b feature/${answers.value} {} `);
+                                child_process.exec(`git checkout feature/${answers.value}`);
+                                child_process.exec(`git push --set-upstream origin HEAD`);
+                                child_process.exec(`git pull origin master`);
+                                log("info",`Задача переведена в работу`);
+                                log("info",`Ветка feature/${answers.value} успешно создана`);
+                            }catch(e){
+                                console.log(`Ошибка:`,e);
+                            }
 
-                     lib.requests.toWork(answers.value, '',()=>{
-                         try {
-                             child_process.exec(`git checkout -b feature/${answers.value} master `);
-                             child_process.exec(`git checkout feature/${answers.value}`);
-                             child_process.exec(`git push --set-upstream origin HEAD`);
-                             child_process.exec(`git pull origin master`);
 
-                             console.log(`Ветка feature/${answers.value} успешно создана`);
-                         }catch(e){
-                             console.log(`Ошибка:`,e);
-                         }
+                        } );
 
+                    });
 
-                    } );
 
 
                     break;
