@@ -25,7 +25,8 @@ function getStory(filter = 'All', callback = () => {
                 "summary",
                 "created",
                 "assignee",
-                "customfield_10100"
+                "customfield_10100",
+                "status"
               ],
               "startAt": 0
             }`

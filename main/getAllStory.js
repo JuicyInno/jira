@@ -43,9 +43,17 @@ function resultGetTasks(data) {
         i.name = (i.name + ' '.repeat(20)).slice(0, 140);
         i.name += `${(USERNAME === i.fields.assignee.name) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
-        i.description = i.fields.description;
         delete i.key;
+        i.description = i.fields.description;
         i.created = new Date(i.fields.created);
+        /*
+            "status": {
+                "name": "В работе",
+                "id": "11003",
+                ...
+            }
+        */
+        i.taskStatusOnWork = i.fields.status.id === "11003";
         delete i.fields;
         return i;
     }).sort((a, b) => (a.value > b.value ? -1 : 1));
