@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "node create.js",
-    "release": "release-it",
+    "release": "release-it patch",
     "rflink": "yarn link"
   },
   "author": " 12",
