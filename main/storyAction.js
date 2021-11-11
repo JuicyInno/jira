@@ -22,11 +22,14 @@ const {log} = require("./../utils/log");
                     lib.requests.assigneeTaskTo(answers.value, () => {
                         lib.requests.toWork(answers.value, '',()=>{
                             try {
-                                child_process.exec(`git checkout -b feature/${answers.value} {} `);
+
+                                child_process.exec(`git checkout -b feature/${answers.value} ${global.bitbucket.mainBranchName}`);
                                 child_process.exec(`git checkout feature/${answers.value}`);
                                 child_process.exec(`git push --set-upstream origin HEAD`);
-                                child_process.exec(`git pull origin master`);
+                                child_process.exec(`git pull origin ${global.bitbucket.mainBranchName}`);
+
                                 log("info",`Задача переведена в работу`);
+
                                 log("info",`Ветка feature/${answers.value} успешно создана`);
                             }catch(e){
                                 console.log(`Ошибка:`,e);

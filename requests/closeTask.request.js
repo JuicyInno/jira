@@ -25,7 +25,7 @@ function closeTask(taskId, comment = '', callback=()=>{}) {
         ]
     }}`
     };
-    console.log(data)
+
     request(data, function (error) {
         if (error) throw new Error(error);
         callback()

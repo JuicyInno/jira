@@ -18,7 +18,8 @@ function resultGetTasks(data) {
         delete i.expand;
         delete i.self;
         delete i.id;
-        i.name = `${(idx + 1)})${i.key} [${(i.fields.status?.name+'     ').slice(0,8)}]/${i.fields.summary}`;
+        // console.log(i)
+        i.name = `${(idx + 1)})${i.key} [${(i.fields.status?.name+(i.fields.labels?.length && i.fields.status?.name==='Выполнено'?' '+i.fields.labels[0]:'')).slice(0,15)}]/${i.fields.summary}`;
         i.name = (i.name + ' '.repeat(1000)).slice(0, 130);
         /* парсинг спринта */
         //
@@ -35,18 +36,18 @@ function resultGetTasks(data) {
         const today = new Date();
         if(sprintStartDate && sprintEndDate){
             if(today > new Date(sprintEndDate)){
-                i.name += "Закрытый спринт";
+                i.name += "!!!!!!!!!!Закрытый спринт!!!!!!!!!!!!! __ ";
             } else
             if(today < new Date(sprintStartDate)){
-                i.name += "Будущий спринт";
+                i.name += "!!!!!!!!!!Будущий спринт!!!!!!!!!!!!!! __ ";
             } else {
-                i.name += "Текущий спринт";
+                i.name += "";
             }
         } else {
             i.name += "Спринт не опред.";
         }
 
-        i.name += ` __ ${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
+        i.name += `${(USERNAME.toLocaleUpperCase()  === i.fields.assignee.name.toLocaleUpperCase() ) ? '!!!Я!!!!' : i.fields.assignee.displayName}`;
         i.value = i.key;
         delete i.key;
         i.description = i.fields.description;

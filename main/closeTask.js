@@ -20,7 +20,7 @@ const sub = new Subject();
 
 function callbackSpendTime() {
     lib.requests.closeTask(taskId, message, () => lib.methods.selectTask());
-    log('info', "задача закрыта, время учтено");
+    log('info', "Задача успешно закрыта, время учтено. Не забудте сделать PR.");
 }
 
 

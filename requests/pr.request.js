@@ -47,10 +47,15 @@ function createPr(callback = () => {
         callback();
     } else {
         request(data, function (error, response) {
+
             if (error) throw new Error(error);
-            // child_process.execSync(`git checkout ${global.bitbucket.mainBranchName}`);
-            // child_process.execSync(`git fetch`);
-            log("info", " Pull request  успешно создан");
+
+            child_process.execSync(`git checkout ${global.bitbucket.mainBranchName}`);
+            child_process.execSync(`git fetch`);
+            log("info", ` Pull request  успешно создан. Выполнен переход в ветку ${global.bitbucket.mainBranchName}. Ссылка:
+           ${JSON.parse(response.body).links.self[0].href}
+            `);
+
 
             callback();
         });

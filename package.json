@@ -14,8 +14,9 @@
   },
   "scripts": {
     "start": "node create.js",
-    "release": "release-it"
+    "release": "release-it",
+    "rflink": "yarn link"
   },
-  "author": "",
+  "author": " 12",
   "license": "ISC"
 }
