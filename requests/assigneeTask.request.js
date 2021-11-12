@@ -23,6 +23,7 @@ function assigneeTaskTo(task, callback = () => {
 
     request(data, function (error) {
         if (error) throw new Error(error);
+        /* todo: сделать валидацию ответа во всех реквестах */
         log("info"," задача успешно назначена на вас");
         callback();
     });

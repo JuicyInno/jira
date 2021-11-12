@@ -9,10 +9,10 @@ const {closeTask} = require('./requests/closeTask.request');
 const {assigneeTaskTo} = require('./requests/assigneeTask.request');
 const {toWork} = require('./requests/toWork.request');
 const {createPr} = require('./requests/pr.request');
-const {currentBrunch, currentRepoLink} = require('./utils/helpers');
-
-
 const {spendTime} = require("./requests/spendTime.request");
+const {setIssueLabels} = require('./requests/setIssueLabels.request');
+
+const {currentBrunch, currentRepoLink} = require('./utils/helpers');
 
 
 exports.methods = {
@@ -28,7 +28,8 @@ exports.requests = {
     createPr,
     assigneeTaskTo,
     spendTime,
-    toWork
+    toWork,
+    setIssueLabels
 };
 
 exports.utils = {

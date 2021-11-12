@@ -17,8 +17,8 @@ function toWork(taskId, comment = '', callback=()=>{}) {
         body: ` {"transition": {"id": "${jira.subtask.transitions.to_work.id}"}}`
     };
     request(data, function (error) {
-
         if (error) throw new Error(error);
+        /* todo: сделать валидацию ответа во всех реквестах */
         callback()
     });
 }

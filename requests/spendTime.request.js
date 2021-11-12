@@ -22,6 +22,7 @@ function spendTime(task, comment = '', time = '0',callback=()=>{}) {
     };
     request(data, function (error) {
         if (error) throw new Error(error);
+        /* todo: сделать валидацию ответа во всех реквестах */
         callback();
     });
 }

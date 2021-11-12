@@ -1,10 +1,10 @@
 const request = require('request');
 
-/*создание пр*/
-function closeTask(taskId, comment = '', callback=()=>{}) {
+/* записать метки в задачу */
+function setIssueLabels(taskId, labels = [""], callback=()=>{}) {
     const data = {
-        method: 'POST',
-        url: `${global.jira.host}/rest/api/2/issue/${taskId}/transitions`,
+        method: 'PUT',
+        url: `${global.jira.host}/rest/api/2/issue/${taskId}`,
         strictSSL: false,
         auth: {
             username: global.auth.USERNAME,
@@ -14,21 +14,15 @@ function closeTask(taskId, comment = '', callback=()=>{}) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: `{"transition": {"id": "${global.jira.subtask.transitions.done.id}"}, "update": {
-
-        "comment": [
-            {
-                "add": {
-                    "body": "${comment}"
-                }
+        body: JSON.stringify({
+            "fields": {
+                "labels": labels
             }
-        ]
-    }}`
+        })
     };
 
     request(data, function (error, response, body) {
         if (error) throw new Error(error);
-        /* todo: сделать валидацию ответа во всех реквестах */
         /* проверка статуса на 2хх */
         if(response && Math.floor(response.statusCode / 100) !== 2) {
             let msg = `!!! request to: ${data.url} response status code: ${response.statusCode}` +
@@ -40,4 +34,4 @@ function closeTask(taskId, comment = '', callback=()=>{}) {
     });
 }
 //--------------------------
-exports.closeTask = closeTask;
+exports.setIssueLabels = setIssueLabels;

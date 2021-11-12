@@ -33,7 +33,8 @@ function getStory(filter = 'All', callback = () => {
             }`
     };
     request(data, function (error, request, body) {
-            if (error) throw new Error(error); /* todo: check body {errorMsg: "blablabla"}*/
+            if (error) throw new Error(error);
+            /* todo: сделать валидацию ответа во всех реквестах */
             callback(JSON.parse(body).issues.filter(i => {
                 let result = !!(i.fields.issuetype.subtask);
                 result && filter !== 'All' && (result = ~i.fields.summary.indexOf(filter));
