@@ -3,6 +3,7 @@ const {selectTask} = require('./main/selectTask');
 const {getTasks} = require('./main/getAllStory');
 const {storyAction} = require('./main/storyAction');
 const {requestClosetask} = require('./main/closeTask');
+const {reportMenuMain, reportMenuResultOptions} = require('./main/reportMenu');
 
 const {getStory} = require('./requests/getStory.request');
 const {closeTask} = require('./requests/closeTask.request');
@@ -11,6 +12,7 @@ const {toWork} = require('./requests/toWork.request');
 const {createPr} = require('./requests/pr.request');
 const {spendTime} = require("./requests/spendTime.request");
 const {setIssueLabels} = require('./requests/setIssueLabels.request');
+const {getAllIssues} = require('./requests/report/getAllIssues.request');
 
 const {currentBrunch, currentRepoLink} = require('./utils/helpers');
 
@@ -21,7 +23,9 @@ exports.methods = {
     getTasks,
     storyAction,
     getStory,
-    requestClosetask
+    requestClosetask,
+    reportMenuMain,
+    reportMenuResultOptions
 };
 exports.requests = {
     closeTask,
@@ -29,7 +33,8 @@ exports.requests = {
     assigneeTaskTo,
     spendTime,
     toWork,
-    setIssueLabels
+    setIssueLabels,
+    getAllIssues
 };
 
 exports.utils = {
