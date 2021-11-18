@@ -4,7 +4,15 @@ const {log} = require('./../utils/log');
 
 //--------------------------
 global.REQ = '';
-const menuData = ['Мои задачи', 'Мои задачи в текущем спринте', 'Все задачи в текущем спринте', 'Закрыть текущую задачу', 'Забацать PullRequest', 'ВЫЙТИ'];
+const menuData = [
+    'Мои задачи',
+    'Мои задачи в текущем спринте',
+    'Все задачи в текущем спринте',
+    'Закрыть текущую задачу',
+    'Забацать PullRequest',
+    'Отчетность',
+    'ВЫЙТИ'
+];
 
 
 function selectTask() {
@@ -39,7 +47,10 @@ function selectTask() {
                     lib.requests.createPr(lib.methods.selectTask) :
                     log('error', '!!!!!!!!!!!!! Не верный формат ветки в гите !!!!!!!!!!!!!!!!!!!', lib.methods.selectTask);
                 break;
-            case menuData[5]: /* 'ВЫЙТИ' */
+            case menuData[5]: /* 'Отчетность' */
+                lib.methods.reportMenuMain();
+                break;
+            case menuData[6]: /* 'ВЫЙТИ' */
                 break;
         }
     });
