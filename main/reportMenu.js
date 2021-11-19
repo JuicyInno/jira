@@ -22,6 +22,9 @@ const menuDataResultOptions = [
     '<----- Назад',
 ];
 
+/* текущий или грядущий спринт */
+let targetSprint;
+
 //--------------------------
 function reportMenuMain() {
     inquirer
@@ -41,12 +44,12 @@ function reportMenuMain() {
                 let resultOptions;
                 switch (answer.id) {
                     case menuDataMain[0]: /* 'Все (сторипоинты + подзадачи)' */
-                        global.REQ = `project=${global.jira.project} AND (Sprint  in (openSprints()) )`;
                         resultOptions = await reportMenuResultOptions(answer.id);
                         if (menuDataResultOptions.indexOf(resultOptions) === 3) {
                             return;
                         }
-                        issueTaskMap = await lib.requests.getAllIssues();
+                        await preset();
+                        issueTaskMap = await lib.requests.getAllIssues(targetSprint.id);
                         switch (resultOptions) {
                             case menuDataResultOptions[0]:
                                 printConsoleStatisticStoryPoints(getStatisticStoryPoints(issueTaskMap));
@@ -68,12 +71,12 @@ function reportMenuMain() {
                         lib.methods.reportMenuMain();
                         break;
                     case menuDataMain[1]: /* 'Сторипоинты' */
-                        global.REQ = `project=${global.jira.project} AND (Sprint  in (openSprints()) )`;
                         resultOptions = await reportMenuResultOptions(answer.id);
                         if (menuDataResultOptions.indexOf(resultOptions) === 3) {
                             return;
                         }
-                        issueTaskMap = await lib.requests.getAllIssues();
+                        await preset();
+                        issueTaskMap = await lib.requests.getAllIssues(targetSprint.id);
                         switch (resultOptions) {
                             case menuDataResultOptions[0]:
                                 printConsoleStatisticStoryPoints(getStatisticStoryPoints(issueTaskMap));
@@ -89,12 +92,12 @@ function reportMenuMain() {
                         lib.methods.reportMenuMain();
                         break;
                     case menuDataMain[2]: /* 'Подзадачи по командам' */
-                        global.REQ = `project=${global.jira.project} AND (Sprint  in (openSprints()) )`;
                         resultOptions = await reportMenuResultOptions(answer.id);
                         if (menuDataResultOptions.indexOf(resultOptions) === 3) {
                             return;
                         }
-                        issueTaskMap = await lib.requests.getAllIssues();
+                        await preset();
+                        issueTaskMap = await lib.requests.getAllIssues(targetSprint.id);
                         switch (resultOptions) {
                             case menuDataResultOptions[0]:
                                 printConsoleStatisticCommand(getStatisticCommand(issueTaskMap));
@@ -116,6 +119,18 @@ function reportMenuMain() {
                 }
             }
         );
+}
+
+async function preset() {
+    console.log("Инициализируем данные для обновления;")
+    let sprintsArr = await lib.requests.getAllSprints(global.jira.boardId);
+
+    targetSprint = lib.utils.searchTargetSprint(sprintsArr);
+
+
+    if (!targetSprint) {
+        throw "no sprint found";
+    }
 }
 
 
