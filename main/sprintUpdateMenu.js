@@ -83,7 +83,8 @@ async function preset() {
     taskMap = {};
     for (let key in issueMap) {
         if (issueMap[key].selfData.fields.issuetype.id === global.jira.TASK_TYPE_ID
-            && issueMap[key].selfData.fields.issuetype.name === global.jira.TASK_TYPE_NAME) {
+            && issueMap[key].selfData.fields.issuetype.name === global.jira.TASK_TYPE_NAME
+            && (issueMap[key].selfData.fields.status && issueMap[key].selfData.fields.status.id === "11200")) {
             taskMap[key] = issueMap[key];
         }
     }

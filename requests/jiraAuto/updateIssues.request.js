@@ -19,13 +19,18 @@ async function updateIssue(issueKey, bodyUpdateRequest) {
         )
     };
 
+    console.log("Обновляем: " + issueKey);
     return new Promise((resolve, reject) => {
         request(
             reqObj,
             function (error, request, body) {
                 if (error) throw new Error(error);
                 /* todo: сделать валидацию ответа во всех реквестах */
-                resolve(JSON.parse(body));
+                if(request.statusCode === 204){
+                    resolve();
+                } else {
+                    reject("unexpected response status, expect: 204, got: " + request.statusCode);
+                }
             }
         );
     });
