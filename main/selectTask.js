@@ -11,6 +11,7 @@ const menuData = [
     'Закрыть текущую задачу',
     'Забацать PullRequest',
     'Отчетность',
+    'Обновление задач (для админов)',
     'ВЫЙТИ'
 ];
 
@@ -50,7 +51,10 @@ function selectTask() {
             case menuData[5]: /* 'Отчетность' */
                 lib.methods.reportMenuMain();
                 break;
-            case menuData[6]: /* 'ВЫЙТИ' */
+            case menuData[6]: /* 'Обновление задач (для админов)' */
+                lib.methods.sprintMenuMain();
+                break;
+            case menuData[7]: /* 'ВЫЙТИ' */
                 break;
         }
     });

@@ -4,36 +4,24 @@ const MAX_RESULTS = 20;
 
 /* получение задач и подзадач постранично */
 async function getIssuesPage(
+    sprintId,
     startAt = 0,
     maxResults = MAX_RESULTS
 ) {
+    // console.log("sprintId", sprintId)
     const reqObj = {
-        method: 'POST',
-        url: `${global.jira.host}/rest/api/2/search`,
+        method: 'GET',
+        url: `${global.jira.host}/rest/agile/1.0/sprint/${sprintId}/issue`
+            + `?fields=issuetype,customfield_10200,status,summary,parent,timetracking`
+            + `&startAt=${startAt}&maxResults=${maxResults}`,
         strictSSL: false,
         auth: {
             username: global.auth.USERNAME,
             password: global.auth.PASSWORD
         },
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                "jql": global.REQ,
-                "startAt": startAt,
-                "maxResults": maxResults,
-                "fields": [
-                    "issuetype",
-                    "customfield_10200",
-                    "status",
-                    "summary",
-                    "parent",
-                    "timetracking"
-                ]
-            }
-        )
+            'Accept': 'application/json'
+        }
     };
 
     return new Promise((resolve, reject) => {
@@ -49,14 +37,14 @@ async function getIssuesPage(
 }
 
 /* получение задач и подзадач целиком (постраничные запросы)  */
-async function getAllIssues() {
+async function getAllIssues(sprintId) {
     console.log("Получаем данные из Jira");
     let startAt;
     let maxResults = MAX_RESULTS;
     let issuesArr = [];
 
     for (startAt = 0; ; startAt += maxResults) {
-        let issuesPage = await getIssuesPage(startAt, maxResults);
+        let issuesPage = await getIssuesPage(sprintId, startAt, maxResults);
         issuesArr = issuesArr.concat(issuesPage.issues);
         if (issuesPage.total < startAt + maxResults || issuesPage.isLast) {
             startAt = issuesPage.total;
